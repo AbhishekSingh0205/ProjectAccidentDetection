@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import com.example.accidentdetection.MainActivity
 import com.example.accidentdetection.R
 
 class WelcomeActivity : AppCompatActivity() {
@@ -15,7 +16,7 @@ class WelcomeActivity : AppCompatActivity() {
         val signupBTN :  Button = findViewById(R.id.btn_signup_w)
 
         loginBTN.setOnClickListener {
-            val intent = Intent(this,LoginActivity::class.java)
+            val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
             finish()
         }

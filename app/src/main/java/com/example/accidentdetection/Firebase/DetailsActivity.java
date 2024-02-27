@@ -30,7 +30,6 @@ import com.example.accidentdetection.MainActivity;
 import com.example.accidentdetection.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -47,7 +46,6 @@ public class DetailsActivity extends AppCompatActivity {
     private static final int REQUEST_READ_CONTACTS_PERMISSION = 0;
     private static final int SELECT_PICTURE = 200;
     private FirebaseFirestore firebaseFirestore ;
-    private FirebaseAuth firebaseAuth;
     private StorageReference storageRef;
 
     private Button contact_btn  ;
@@ -73,7 +71,6 @@ public class DetailsActivity extends AppCompatActivity {
         Button saveDetails_btn = findViewById(R.id.btn_saveDetails);
 
         firebaseFirestore  =  FirebaseFirestore.getInstance();
-        firebaseAuth =  FirebaseAuth.getInstance();
         storageRef = FirebaseStorage.getInstance().getReference("profilePicUploads");
 
         contact_btn =  findViewById(R.id.btn_Contact);
@@ -153,42 +150,16 @@ public class DetailsActivity extends AppCompatActivity {
 
 
 
-        String UID =  firebaseAuth.getUid().toString();
         //Log.d("UID", "saveDetails: "+UID);
         Map<String,Object> map =  new HashMap<>();
         storageRef.child("images/" + UUID.randomUUID().toString());
-        if(uri !=null){
-            StorageReference fileRef = storageRef.child(firebaseAuth.getUid().toString()).child(firebaseAuth.getUid().toString()+"."+getFileExt());
-            fileRef.putFile(uri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                    if(task.isSuccessful()){
-                        //                Toast.makeText(MainActivity2.this,fileRef.getPath().toString(),Toast.LENGTH_SHORT).show();
-                        Log.d("hello",fileRef.getPath().toString());
-                        progressBar.setVisibility(View.INVISIBLE);
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        finish();
-                    }
-                }
-            });
-        }
+
 
         map.put("Name",name);
         map.put("Age",age);
         map.put("Sex",sex);
         map.put("contacts",contacts);
 
-        firebaseFirestore.collection("User").document(UID).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(DetailsActivity.this,"Updated",Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(DetailsActivity.this,"SomeThing went wrong, Try again",Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
     }
     private String getFileExt(){
         ContentResolver cr =  getContentResolver();

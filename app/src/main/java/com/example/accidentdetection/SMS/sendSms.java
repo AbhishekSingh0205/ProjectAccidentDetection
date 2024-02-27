@@ -23,18 +23,9 @@ public class sendSms {
 
 
     public void sendSms(Context context,String lastUpdatedLocation,Double lastUpdatedLat,Double lastUpdatedLong){
-        results.add("7797571334");
-        results.add("6294433062");
-//        results.add("8670632396");
-        results.add("Kokonad Clg");
-        results.add("Swarup");
-        results.add("8768478562");
-//        results.add("7407535973");
-
-        //sandipan sir
-//        results.add("9830561274");
-//        results.add("8240290384");
-        results.add("7586949429");
+        results.add("7412939906");
+        results.add("9693936329");
+        results.add("7993865081");
 
         //  text = findViewById(R.id.txt_message);
         //PERMISSION

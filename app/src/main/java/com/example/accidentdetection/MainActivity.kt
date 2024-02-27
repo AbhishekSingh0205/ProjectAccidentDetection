@@ -39,7 +39,6 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
@@ -123,7 +122,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
 
         //load user details
-        loadUserDetails()
 
         //profile pic
 //        val pp : ImageView =  findViewById(R.id.profile_image)
@@ -506,32 +504,32 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
 
-    private fun loadUserDetails(){
-        val auth = FirebaseAuth.getInstance()
-        val nameTxt : TextView = findViewById(R.id.usernameTV)
-        val usrProfilePic : ImageView = findViewById(R.id.profile_image)
-
-        //cloud firestore
-        val firestore = FirebaseFirestore.getInstance()
-        val ref=firestore.collection("User").document(auth.uid.toString())
-        ref.get()
-            .addOnSuccessListener {document->
-                if(document != null){
-                    val usr = document.get("Name")
-                    nameTxt.text= usr.toString()
-                }
-                else {
-                    Log.d("FIRESTORE", "No such document")
-                }
-            }
-
-        //storage
-        val localFile = File.createTempFile("tempImage","jpg")
-        FirebaseStorage.getInstance().getReference("profilePicUploads/${auth.currentUser!!.uid}/${auth.currentUser!!.uid}.jpg")
-            .getFile(localFile).addOnSuccessListener {
-                val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
-                usrProfilePic.setImageBitmap(bitmap)
-            }
-    }
+//    private fun loadUserDetails(){
+//        val auth = FirebaseAuth.getInstance()
+//        val nameTxt : TextView = findViewById(R.id.usernameTV)
+//        val usrProfilePic : ImageView = findViewById(R.id.profile_image)
+//
+//        //cloud firestore
+//        val firestore = FirebaseFirestore.getInstance()
+//        val ref=firestore.collection("User").document(auth.uid.toString())
+//        ref.get()
+//            .addOnSuccessListener {document->
+//                if(document != null){
+//                    val usr = document.get("Name")
+//                    nameTxt.text= usr.toString()
+//                }
+//                else {
+//                    Log.d("FIRESTORE", "No such document")
+//                }
+//            }
+//
+//        //storage
+//        val localFile = File.createTempFile("tempImage","jpg")
+//        FirebaseStorage.getInstance().getReference("profilePicUploads/${auth.currentUser!!.uid}/${auth.currentUser!!.uid}.jpg")
+//            .getFile(localFile).addOnSuccessListener {
+//                val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
+//                usrProfilePic.setImageBitmap(bitmap)
+//            }
+//    }
 
 }

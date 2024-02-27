@@ -19,17 +19,12 @@ import com.example.accidentdetection.MainActivity;
 import com.example.accidentdetection.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class RegisterActivity extends AppCompatActivity {
     private EditText mFullName,mEmail,mPassword,mConfPassword,mPhone;
     private Button mRegister;
     private TextView mGoToLogin;
     static int count=0;
-    FirebaseAuth fAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +39,6 @@ public class RegisterActivity extends AppCompatActivity {
         mRegister =  findViewById(R.id.btn_register);
 
         mGoToLogin =  findViewById(R.id.textView_login);
-
-        fAuth =  FirebaseAuth.getInstance();
 
 
         mRegister.setOnClickListener(new View.OnClickListener() {
@@ -73,46 +66,13 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
-                fAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            //verify
-                            ProgressBar progressBar= findViewById(R.id.p_bar);
-                            FirebaseUser  user =  fAuth.getCurrentUser();
-                            user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
-                                        progressBar.setVisibility(View.INVISIBLE);
-                                        Toast.makeText(RegisterActivity.this,"Email verification mail has been sent",Toast.LENGTH_SHORT).show();
-                                    }
-                                    else{
-                                        Toast.makeText(RegisterActivity.this,"Email not sent check your email",Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-
-                            //registeredg
-//                            if(!user.isEmailVerified()){
-//                                Toast.makeText(Register.this,"verify your email check mail",Toast.LENGTH_SHORT).show();
-//                            }
-                            progressBar.setVisibility(View.GONE);
-                            Toast.makeText(RegisterActivity.this,"User Registered and logged in",Toast.LENGTH_SHORT).show();
-                            Toast.makeText(RegisterActivity.this,"verify your email check mail",Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), DetailsActivity.class));
-
-                        }else
-                            Toast.makeText(RegisterActivity.this,"User not registered",Toast.LENGTH_SHORT).show();
-                    }
-                });
 
             }
         });
         mGoToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
                 finish();
             }
         });
